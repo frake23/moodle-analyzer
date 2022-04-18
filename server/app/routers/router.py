@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .tests_router import router as tests_router
+from .tests import router as tests_router
 
 router = APIRouter()
 
