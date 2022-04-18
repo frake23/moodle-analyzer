@@ -13,4 +13,4 @@ class Answer(Base):
 
     attempt_id = Column(Integer, ForeignKey(
         'attempt.attempt_id'), nullable=False)
-    question_id = Column(Integer, ForeignKey('question.question_id', nullable=False)
+    question_id = Column(Integer, ForeignKey('question.question_id', nullable=False))

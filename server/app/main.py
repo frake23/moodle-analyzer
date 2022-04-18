@@ -1,10 +1,12 @@
 from fastapi import FastAPI
-from .database.engine import get_db, Base, engine
+from .database.engine import Base, engine
+from .routers import router
 
 app = FastAPI()
 
+app.include_router(router)
+
 Base.metadata.create_all(bind=engine)
-get_db()
 
 
 @app.get("/")

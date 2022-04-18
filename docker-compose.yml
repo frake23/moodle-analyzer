@@ -11,5 +11,7 @@ services:
       - POSTGRES_PASSWORD=postgres
   server:
     build: ./server
+    volumes:
+      - ./server/app:/app
     ports:
       - "80:80"
