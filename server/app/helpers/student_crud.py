@@ -7,18 +7,11 @@ def get_student_by_username(db: Session, username: str):
     return db.query(Student).filter(Student.username == username).first()
 
 
-def create_student(db: Session, item: list[str], group_id: int):
-    second_name = item[0]
-    first_name = item[1]
-    email = item[6]
-    username = item[7]
-
-    if db_student := get_student_by_username(db, username):
+def create_student(db: Session, student: Student):
+    if db_student := get_student_by_username(db, student.username):
         return db_student
 
-    db_student = Student(first_name=first_name, second_name=second_name,
-                         email=email, username=username, group_id=group_id)
-    db.add(db_student)
-    db.refresh(db_student)
+    db.add(student)
+    db.refresh(student)
 
-    return db_student
+    return student
