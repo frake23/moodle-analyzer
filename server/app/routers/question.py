@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from ..enums import QuestionType
 from ..schemas.question import QuestionItemResponse, QuestionResponse
 from ..database.engine import get_db
 from ..helpers import question_crud, answer_crud
@@ -22,10 +23,12 @@ def get_questions(test_id: int | None = None, db: Session = Depends(get_db)):
 @router.get('/{question_id}', response_model=QuestionResponse)
 def get_question(question_id: int, test_id: int | None = None, db: Session = Depends(get_db)):
     question = question_crud.get_question_by_id(db, question_id)
-    stats = answer_crud.get_answers_count(db, question, test_id)
+    stats = {}
+    if question.type != QuestionType.Text.value:
+        stats = answer_crud.get_answers_count(db, question, test_id)
 
     return QuestionResponse(
         text=question.text,
         type=question.type,
-        stats=stats
+        stats=stats if len(stats.keys()) != 0 else None
     )

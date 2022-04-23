@@ -21,7 +21,7 @@ def get_answer(db: Session, answer_id: int):
 def get_answers_count(db: Session, question: Question, test_id: int | None):
     col = get_answer_column(question.type)
 
-    q = db.query(col, func.count(col), Attempt, Test)
+    q = db.query(col, func.count(), Attempt, Test)
     if test_id:
         q = q.filter(Test.test_id == test_id)
 

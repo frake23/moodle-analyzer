@@ -48,6 +48,8 @@ def get_variants(s: str) -> list[MappedVariant] | None:
 
 
 def get_answer(question_type: QuestionType, answer_str: str):
+    if answer_str == '-':
+        return MappedAnswer()
     match question_type:
         case QuestionType.Text:
             return MappedAnswer(answer_text=answer_str)
@@ -58,7 +60,7 @@ def get_answer(question_type: QuestionType, answer_str: str):
 
 
 def map_test_create(test_create: TestCreate) -> MappedTestCreate:
-    test = MappedTest(name=test_create.name, link=test_create.name)
+    test = MappedTest(name=test_create.name, link=test_create.link)
 
     attempts = []
     questions = []

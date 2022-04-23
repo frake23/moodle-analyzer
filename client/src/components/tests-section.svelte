@@ -6,6 +6,7 @@
 	import SectionItem from './section-item.svelte';
 	import Icon from './icon.svelte';
 	import EmptySectionAlert from './empty-section-alert.svelte';
+	import TestForm from './test-form.svelte';
 
 	onMount(async () => {
 		const res = await fetch('/api/test');
@@ -16,6 +17,7 @@
 </script>
 
 <Section title="Тесты" className="col-span-3 gap-2">
+	<TestForm />
 	{#if $testStore.tests}
 		{#each $testStore.tests as { name, link }, i}
 			<div class="flex items-center">
@@ -29,7 +31,10 @@
 					}}
 				/>
 				<a href={link}>
-					<Icon name="external-link" className="w-4 h-4 ml-2 text-gray-700 hover:text-blue-600 transition-all" />
+					<Icon
+						name="external-link"
+						className="w-4 h-4 ml-2 text-gray-700 hover:text-blue-600 transition-all"
+					/>
 				</a>
 			</div>
 		{/each}

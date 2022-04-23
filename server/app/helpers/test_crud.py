@@ -8,7 +8,7 @@ def get_test(db: Session, test_id: int):
 
 
 def get_tests(db: Session):
-    return db.query(Test).order_by(Test.created_at).all()
+    return db.query(Test).order_by(Test.created_at.desc()).all()
 
 
 def create_test(db: Session, test: Test):

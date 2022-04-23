@@ -18,5 +18,5 @@ export type GetQuestionsResponse = {
 export type GetQuestionResponse = {
 	text: string;
 	type: 'text' | 'variant' | 'number';
-	stats: Record<string | number, number>;
+	stats?: Record<string | number, number>;
 };

@@ -14,7 +14,7 @@ class QuestionItemResponse(QuestionBase):
 
 class QuestionResponse(QuestionBase):
     type: str
-    stats: dict[str | int, int]
+    stats: dict[str | int | None, int] | None
 
     class Config:
         orm_mode = True
