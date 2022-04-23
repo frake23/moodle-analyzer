@@ -1,10 +1,13 @@
 from pydantic import BaseModel
-from ..enums import QuestionType
+
 
 class QuestionBase(BaseModel):
     text: str
 
+
 class QuestionItemResponse(QuestionBase):
+    question_id: int
+
     class Config:
         orm_mode = True
 
@@ -15,4 +18,3 @@ class QuestionResponse(QuestionBase):
 
     class Config:
         orm_mode = True
-

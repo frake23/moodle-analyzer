@@ -15,7 +15,7 @@ router = APIRouter(
 
 @router.post('/')
 def create_test(test_create: TestCreate, db: Session = Depends(get_db)):
-    return helpers.create_test(db, map_test_create(test_create))
+    helpers.create_test(db, map_test_create(test_create))
 
 
 @router.get('/', response_model=list[TestItemResponse])

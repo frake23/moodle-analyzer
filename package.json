@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "feather-icons": "^4.29.0"
+  },
+  "devDependencies": {
+    "@types/feather-icons": "^4.7.0"
+  }
+}

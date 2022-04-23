@@ -11,5 +11,7 @@ class TestCreate(TestBase):
 
 
 class TestItemResponse(TestBase):
+    test_id: int
+
     class Config:
         orm_mode = True
