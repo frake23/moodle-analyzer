@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from ..database.models.attempt import Attempt
+from ..models.attempt import Attempt
 
 
 def get_attempt(db: Session, attempt_id: int):

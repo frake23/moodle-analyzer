@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from ..database.models.student import Student
+from ..models.student import Student
 
 
 def get_student_by_username(db: Session, username: str):
@@ -12,6 +12,7 @@ def create_student(db: Session, student: Student):
         return db_student
 
     db.add(student)
+    db.commit()
     db.refresh(student)
 
     return student

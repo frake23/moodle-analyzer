@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from .schemas.test_create import TestCreate
+from .schemas.test import TestCreate
 from .schemas.mapped_test_create import *
 from .enums import QuestionType
 from .enums import QuestionType
@@ -28,7 +28,6 @@ def str_to_date(s: str):
 
 
 def get_question_type(strings: list[str]) -> QuestionType | None:
-    print(strings)
     if strings[2] == '-':
         return QuestionType.Text
 
@@ -55,7 +54,7 @@ def get_answer(question_type: QuestionType, answer_str: str):
         case QuestionType.Number:
             return MappedAnswer(answer_number=float(answer_str))
         case QuestionType.Variant:
-            return MappedAnswer(answer_variant=MappedVariant(text=answer_str))
+            return MappedAnswer(answer_variant=answer_str)
 
 
 def map_test_create(test_create: TestCreate) -> MappedTestCreate:

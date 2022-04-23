@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from ..database.models.group import Group
+from ..models.group import Group
 
 
 def get_group_by_name(db: Session, name: str):
@@ -12,6 +12,7 @@ def create_group(db: Session, group: Group):
         return db_group
 
     db.add(group)
+    db.commit()
     db.refresh(group)
 
     return group

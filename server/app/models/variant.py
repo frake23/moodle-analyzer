@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey
 
-from ..engine import Base
+from ..database.engine import Base
 
 
 class Variant(Base):

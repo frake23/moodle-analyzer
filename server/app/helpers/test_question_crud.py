@@ -1,10 +1,14 @@
 from sqlalchemy.orm import Session
 
-from ..database.models.test_question import TestQuestion
+from ..models.test_question import TestQuestion
 
 
-def get_test_question(db: Session, test_id: int, question_id):
-    return db.query(TestQuestion).filter(TestQuestion.test_id == test_id & TestQuestion.question_id == question_id).first()
+def get_test_question(db: Session, test_id: int, question_id: int):
+    return db\
+        .query(TestQuestion)\
+        .filter(TestQuestion.test_id == test_id)\
+        .filter(TestQuestion.question_id == question_id)\
+        .first()
 
 
 def create_test_question(db: Session, test_question: TestQuestion):

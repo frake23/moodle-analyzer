@@ -28,7 +28,7 @@ class MappedVariant(BaseModel):
 class MappedAnswer(BaseModel):
     answer_text: str | None
     answer_number: float | None
-    answer_variant: MappedVariant | None
+    answer_variant: str | None
 
 
 class MappedQuestion(BaseModel):

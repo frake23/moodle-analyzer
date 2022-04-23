@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, Date
 
-from ..engine import Base
+from ..database.engine import Base
 
 
 class Attempt(Base):
