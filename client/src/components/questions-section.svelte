@@ -20,7 +20,7 @@
 	}
 </script>
 
-<Section title="Вопросы" className="col-span-3">
+<Section title="Вопросы" className="col-span-3 gap-2">
 	{#if $questionStore.questions}
 		{#each $questionStore.questions as { text }, i}
 			<SectionItem
