@@ -14,7 +14,6 @@ router = APIRouter(
 
 @router.get('/', response_model=list[QuestionItemResponse])
 def get_questions(test_id: int | None = None, db: Session = Depends(get_db)):
-    print(test_id)
     if test_id:
         return question_crud.get_questions_by_test_id(db, test_id)
     return question_crud.get_questions(db)

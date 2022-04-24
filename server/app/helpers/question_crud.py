@@ -12,15 +12,12 @@ def get_question_by_text(db: Session, text: str):
 
 
 def get_questions_by_test_id(db: Session, test_id: int):
-    return list(map(
-        lambda i: i[0],
-        db
-        .query(Question, TestQuestion, Test)
-        .filter(TestQuestion.test_id == Test.test_id)
-        .filter(TestQuestion.question_id == Question.question_id)
-        .filter(TestQuestion.test_id == test_id)
-        .all())
-    )
+    return db\
+        .query(Question)\
+        .filter(TestQuestion.test_id == Test.test_id)\
+        .filter(TestQuestion.question_id == Question.question_id)\
+        .filter(TestQuestion.test_id == test_id)\
+        .all()
 
 
 def get_questions(db: Session):

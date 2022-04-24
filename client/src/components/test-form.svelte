@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/env';
 	import { testStore } from '../stores/test-store';
 	import Icon from './icon.svelte';
 
@@ -26,6 +27,14 @@
 	let toggle = () => {
 		showModal = !showModal;
 	};
+
+	$: if (browser) {
+		if (showModal) {
+			document.body.className = 'overflow-hidden';
+		} else {
+			document.body.className = '';
+		}
+	}
 </script>
 
 <button class="bg-white rounded-full mb-2 p-2 flex items-center justify-center" on:click={toggle}>
