@@ -35,15 +35,15 @@ class MappedQuestion(BaseModel):
     text: str
     type: QuestionType
     variants: list[MappedVariant] | None
+    answer: MappedAnswer
 
 
 class MappedAttempt(BaseModel):
     student: MappedStudent
-    answers: list[MappedAnswer]
     completion_date: datetime
+    questions: list[MappedQuestion]
 
 
 class MappedTestCreate(BaseModel):
     test: MappedTest
     attempts: list[MappedAttempt]
-    questions: list[MappedQuestion]

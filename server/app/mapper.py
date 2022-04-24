@@ -13,6 +13,10 @@ months_dict = {'января': 1, 'февраля': 2, 'марта': 3, 'апр�
 VARIANTS_REGEXP = r'\n[:;] (.*)'
 
 
+def get_variants_sorted_text(s: str):
+    return re.findall(r'.*\n: ', s)[0] + '\n; '.join(sorted(re.findall(VARIANTS_REGEXP, s)))
+
+
 def str_to_date(s: str):
     date_items = s.split()
     time_items = date_items[3][1:].split(':')
@@ -63,7 +67,6 @@ def map_test_create(test_create: TestCreate) -> MappedTestCreate:
     test = MappedTest(name=test_create.name, link=test_create.link)
 
     attempts = []
-    questions = []
     for item in test_create.data[0]:
         student_second_name = item[0]
         student_first_name = item[1]
@@ -75,20 +78,24 @@ def map_test_create(test_create: TestCreate) -> MappedTestCreate:
         group = MappedGroup(name=group_name)
         student = MappedStudent(first_name=student_first_name, second_name=student_second_name,
                                 email=student_email, username=student_username, group=group)
-        answers = []
         questions = []
         for i in range(0, len(questions_str), 3):
             question_text = questions_str[i]
             question_type = get_question_type(questions_str[i:i+3])
+
+            if question_type == QuestionType.Variant:
+                question_text = get_variants_sorted_text(question_text)
+
             variants = get_variants(item[i])
+            answer = get_answer(question_type, questions_str[i+1])
             question = MappedQuestion(
-                text=question_text, type=question_type, variants=variants)
+                text=question_text, type=question_type, variants=variants, answer=answer)
             questions.append(question)
 
-            answer = get_answer(question_type, questions_str[i+1])
-            answers.append(answer)
+        attempts.append(MappedAttempt(
+            student=student,
+            questions=questions,
+            completion_date=attempt_completion_date)
+        )
 
-        attempts.append(MappedAttempt(student=student, answers=answers,
-                        completion_date=attempt_completion_date))
-
-    return MappedTestCreate(test=test, attempts=attempts, questions=questions)
+    return MappedTestCreate(test=test, attempts=attempts)

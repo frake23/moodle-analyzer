@@ -8,30 +8,6 @@ from . import answer_crud, attempt_crud, group_crud, question_crud, student_crud
 def create_test(db: Session, mapped_test: MappedTestCreate):
     test = test_crud.create_test(db, Test(**mapped_test.test.dict()))
 
-    questions: list[Question] = []
-    for mapped_question in mapped_test.questions:
-        question_type = mapped_question.type.value
-        question = question_crud.create_question(
-            db,
-            Question(
-                **mapped_question.dict(exclude={'variants', 'type'}),
-                type=question_type
-            )
-        )
-
-        if mapped_question.variants:
-            for mapped_variant in mapped_question.variants:
-                variant_crud.create_variant(db, Variant(
-                    question_id=question.question_id,
-                    text=mapped_variant.text
-                ))
-
-        questions.append(question)
-        test_question_crud.create_test_question(db, TestQuestion(
-            test_id=test.test_id,
-            question_id=question.question_id
-        ))
-
     for mapped_attempt in mapped_test.attempts:
         group = group_crud.create_group(
             db,
@@ -47,11 +23,31 @@ def create_test(db: Session, mapped_test: MappedTestCreate):
             student_id=student.student_id
         ))
 
-        for i, mapped_answer in enumerate(mapped_attempt.answers):
+        for mapped_question in mapped_attempt.questions:
+            question_type = mapped_question.type.value
+            question = question_crud.create_question(
+                db,
+                Question(
+                    **mapped_question.dict(exclude={'variants', 'type', 'answer'}),
+                    type=question_type
+                )
+            )
+
+            if mapped_question.variants:
+                for mapped_variant in mapped_question.variants:
+                    variant_crud.create_variant(db, Variant(
+                        question_id=question.question_id,
+                        text=mapped_variant.text
+                    ))
+
+            test_question_crud.create_test_question(db, TestQuestion(
+                test_id=test.test_id,
+                question_id=question.question_id
+            ))
             answer_crud.create_answer(db, Answer(
-                **mapped_answer.dict(),
+                **mapped_question.answer.dict(),
                 attempt_id=attempt.attempt_id,
-                question_id=questions[i].question_id
+                question_id=question.question_id
             ))
 
     return mapped_test
