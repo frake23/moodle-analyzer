@@ -23,3 +23,8 @@ services:
     depends_on:
       pg:
         condition: service_healthy
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8001:8080"

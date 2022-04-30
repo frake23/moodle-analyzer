@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-	import { testStore } from '../stores/test-store';
+	import { getTests } from '../helpers';
 	import Icon from './icon.svelte';
 
 	let name: string;
@@ -8,19 +8,18 @@
 	let files: FileList;
 
 	const onSubmit = async () => {
-		if (!files?.length || !link || !name || files[0].type !== 'application/json') return;
+		if (!files?.length || !name || files[0].type !== 'application/json') return;
 
-		await fetch('/api/test', {
+		const res = await fetch('/api/test', {
 			method: 'POST',
 			body: JSON.stringify({ name, link, data: JSON.parse(await files[0].text()) }),
 			headers: { 'content-type': 'application/json' }
 		});
-		toggle();
-		const res = await fetch('/api/test');
-		const tests = await res.json();
 
-		$testStore.tests = tests;
-		$testStore.selectedTestIndex = 0;
+		if (res.status === 200) {
+			toggle();
+			getTests();
+		}
 	};
 
 	let showModal = false;
@@ -52,12 +51,22 @@
 				</button>
 			</div>
 			<div class="flex flex-col gap-2">
-				<input
-					class="focus:ring border p-1 rounded"
-					bind:value={name}
-					placeholder="Название теста"
-				/>
-				<input class="focus:ring border p-1 rounded" bind:value={link} placeholder="Ссылка" />
+				<label class="flex flex-col mb-2">
+					<span class="mb-1 text-gray-600">Название теста</span>
+					<input
+						class="focus:ring border p-1 rounded"
+						bind:value={name}
+						placeholder="Название теста"
+					/>
+				</label>
+				<label class="flex flex-col mb-2">
+					<span class="mb-1 text-gray-600">Ссылка на тест</span>
+					<input
+						class="focus:ring border p-1 rounded"
+						bind:value={link}
+						placeholder="Ссылка (необязательно)"
+					/>
+				</label>
 				<input
 					class={`block w-full text-sm text-slate-500
                         file:mr-4 file:py-2 file:px-4
@@ -69,6 +78,7 @@
 					accept="application/json"
 					bind:files
 					type="file"
+					title="Выберите файл"
 				/>
 				<button
 					class="rounded-lg p-2 bg-blue-500 hover:bg-blue-600 transition-all text-white flex items-center justify-center"

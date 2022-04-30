@@ -5,7 +5,7 @@ from ..schemas.mapped_test_create import MappedTestCreate
 from . import answer_crud, attempt_crud, group_crud, question_crud, student_crud, test_crud, test_question_crud, variant_crud
 
 
-def create_test(db: Session, mapped_test: MappedTestCreate):
+def init_test(db: Session, mapped_test: MappedTestCreate):
     test = test_crud.create_test(db, Test(**mapped_test.test.dict()))
 
     for mapped_attempt in mapped_test.attempts:

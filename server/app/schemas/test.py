@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class TestBase(BaseModel):
     name: str
-    link: str
+    link: str | None
 
 
 class TestCreate(TestBase):

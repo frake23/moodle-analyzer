@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { testStore } from '../stores/test-store';
+	import { getTests } from '../helpers';
 
 	import Section from './section.svelte';
 	import SectionItem from './section-item.svelte';
@@ -8,12 +9,7 @@
 	import EmptySectionAlert from './empty-section-alert.svelte';
 	import TestForm from './test-form.svelte';
 
-	onMount(async () => {
-		const res = await fetch('/api/test');
-		const tests = await res.json();
-
-		$testStore.tests = tests;
-	});
+	onMount(() => getTests());
 </script>
 
 <Section title="Тесты" className="col-span-3 gap-2">
@@ -30,10 +26,12 @@
 						$testStore.selectedTestIndex = i;
 					}}
 				/>
-				<a href={link}>
+				<a href={link || null} disabled={!link}>
 					<Icon
 						name="external-link"
-						className="w-4 h-4 ml-2 text-gray-700 hover:text-blue-600 transition-all"
+						className={`w-4 h-4 ml-2 ${
+							link ? 'text-gray-700 hover:text-blue-600' : 'text-gray-400'
+						} transition-all`}
 					/>
 				</a>
 			</div>

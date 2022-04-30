@@ -6,7 +6,7 @@ from ..enums import QuestionType
 
 class MappedTest(BaseModel):
     name: str
-    link: str
+    link: str | None
 
 
 class MappedGroup(BaseModel):

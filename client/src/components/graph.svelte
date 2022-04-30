@@ -4,7 +4,6 @@
 	import type { GetQuestionResponse } from 'src/types';
 
 	export let question: GetQuestionResponse;
-	console.log(question.stats);
 	$: data = {
 		datasets: [
 			{
