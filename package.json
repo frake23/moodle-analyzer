@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "feather-icons": "^4.29.0",
-    "svelte-chartjs": "^1.1.4"
-  },
-  "devDependencies": {
-    "@types/feather-icons": "^4.7.0"
-  }
-}
